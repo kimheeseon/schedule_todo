@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,7 +167,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
                             notifyItemChanged(curPos, scheduleItem);
                             dialog.dismiss();
-                            Toast.makeText(mContext, "일정 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                            Toast toast_upgrade = Toast.makeText(mContext, "일정 수정이 완료되었습니다.", Toast.LENGTH_SHORT);
+                            toast_upgrade.setGravity(Gravity.BOTTOM, 0, 0);
+                            toast_upgrade.show();
+
+
+                            /*Toast.makeText(mContext, "일정 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();*/
                         }
                     });
                     dialog.show();
@@ -183,7 +190,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
                     mScheduleItems.remove(curPos);
                     notifyItemRemoved(curPos);
-                    Toast.makeText(mContext, "일정 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    Toast toast_delete = Toast.makeText(mContext, "일정 삭제가 완료되었습니다.", Toast.LENGTH_SHORT);
+                    toast_delete.setGravity(Gravity.BOTTOM, 0, 0);
+                    toast_delete.show();
+                    /*Toast.makeText(mContext, "일정 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();*/
                 }
             });
         }

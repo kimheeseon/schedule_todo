@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
                         rv_schedule.scrollToPosition(0);
 
                         dialog.dismiss();
-                        Toast toast_insert = Toast.makeText(getApplicationContext(), "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT);
 
-                        toast_insert.setGravity(Gravity.TOP|Gravity.LEFT, 500, 150);
+                        Toast toast_insert = Toast.makeText(getApplicationContext(), "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT);
+                        toast_insert.setGravity(Gravity.BOTTOM, 0, 0);
                         toast_insert.show();
 
 
