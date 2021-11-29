@@ -63,7 +63,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginBottom="20dp">
                     <TextView
-                        android:id="@+id/detail_dDay"
+                        android:id="@+id/detail_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,7 @@
                         android:id="@+id/date_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toRightOf="@id/detail_dDay"
+                        app:layout_constraintLeft_toRightOf="@id/detail_date"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"

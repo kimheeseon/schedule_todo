@@ -42,7 +42,7 @@
             android:textSize="8pt"
             android:textColor="@color/black"/>
         <TextView
-            android:id="@+id/main_dDay"
+            android:id="@+id/main_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="마감일"
