@@ -44,11 +44,11 @@ public class ScheduleItem {
         this.content = content;
     }
 
-    public String getdDay() {
+    public String getDate() {
         return date;
     }
 
-    public void setdDay(String date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

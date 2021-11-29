@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 scheduleItem.setId(id);
                 scheduleItem.setTitle(title);
                 scheduleItem.setContent(content);
-                scheduleItem.setdDay(date);
+                scheduleItem.setDate(date);
                 scheduleItem.setChecked(checked);
                 scheduleItems.add(scheduleItem);
 

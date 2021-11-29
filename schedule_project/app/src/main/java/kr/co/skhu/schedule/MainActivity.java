@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -99,14 +100,20 @@ public class MainActivity extends AppCompatActivity {
                         ScheduleItem item = new ScheduleItem();
                         item.setTitle(input_title.getText().toString());
                         item.setContent(input_content.getText().toString());
-                        item.setdDay(input_dDay.getText().toString());
+                        item.setDate(input_dDay.getText().toString());
                         item.setChecked(test_check);
 
                         mAdapter.addItem(item);
                         rv_schedule.scrollToPosition(0);
 
                         dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "일정 추가 됨", Toast.LENGTH_SHORT).show();
+                        Toast toast_insert = Toast.makeText(getApplicationContext(), "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT);
+
+                        toast_insert.setGravity(Gravity.TOP|Gravity.LEFT, 500, 150);
+                        toast_insert.show();
+
+
+                       /* Toast.makeText(MainActivity.this, "일정 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();*/
                     }
                 });
 
