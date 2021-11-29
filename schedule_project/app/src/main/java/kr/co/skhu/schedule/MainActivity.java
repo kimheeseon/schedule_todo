@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ScheduleItem> scheduleItems;
     private DBHelper mDBHelper;
     private CustomAdapter mAdapter;
-    private DatePickerDialog.OnDateSetListener selectDateMethod;
+    private DatePickerDialog.OnDateSetListener callbackMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setInit();
     }
 
-    private void setInit(){
+    private void setInit() {
         mDBHelper = new DBHelper(this);
         rv_schedule = findViewById(R.id.rv_schedule);
         btn_add = findViewById(R.id.plusBtn);
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         loadRecentDB();
 
-        btn_add.setOnClickListener(new View.OnClickListener(){
+        btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Dialog dialog = new Dialog(MainActivity.this, android.R.style.Theme_Material_Light_Dialog);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -71,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(View v) {
-                        selectDateMethod = new DatePickerDialog.OnDateSetListener() {
+                        callbackMethod = new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 input_dDay.setText(year + "년" + (month+1) + "월" + dayOfMonth + "일");
                             }
                         };
-                        DatePickerDialog dialogDate = new DatePickerDialog(input_dDay.getContext(), selectDateMethod, mYear, mMonth, mDate);
+                        DatePickerDialog dialogDate = new DatePickerDialog(input_dDay.getContext(), callbackMethod, mYear, mMonth, mDate);
                         dialogDate.show();
                         dialogDate.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.black);
                         dialogDate.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.black);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         ScheduleItem item = new ScheduleItem();
                         item.setTitle(input_title.getText().toString());
                         item.setContent(input_content.getText().toString());
-                        item.setDate(input_dDay.getText().toString());
+                        item.setdDay(input_dDay.getText().toString());
                         item.setChecked(test_check);
 
                         mAdapter.addItem(item);
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
     }
+
     private void loadRecentDB() {
         scheduleItems = mDBHelper.getSchedule();
         if(mAdapter == null){
