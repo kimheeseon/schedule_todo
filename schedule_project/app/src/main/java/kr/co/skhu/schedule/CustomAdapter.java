@@ -32,7 +32,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private ArrayList<ScheduleItem> mScheduleItems;
     private Context mContext;
     private DBHelper mDBHelper;
-    private DatePickerDialog.OnDateSetListener selectDateMethod;
+    private DatePickerDialog.OnDateSetListener callbackMethod;
 
     public CustomAdapter(ArrayList<ScheduleItem> mScheduleItems, Context mContext){
         this.mScheduleItems = mScheduleItems;
@@ -42,16 +42,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @NonNull
     @Override
-    public CustomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public CustomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
         return new ViewHolder(holder);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
         holder.main_title.setText(mScheduleItems.get(position).getTitle());
         holder.main_content.setText(mScheduleItems.get(position).getContent());
-        holder.main_date.setText(mScheduleItems.get(position).getDate());
+        holder.main_date.setText(mScheduleItems.get(position).getdDay());
 
         if(mScheduleItems.get(position).getChecked()==1){
             holder.main_img.setImageResource(R.drawable.red_tie_cat);
@@ -61,18 +61,18 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return mScheduleItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView main_title;
         private TextView main_content;
         private TextView main_date;
         private ImageButton main_cancelBtn;
         private ImageView main_img;
 
-        public ViewHolder(@NonNull View itemView){
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             main_title = itemView.findViewById(R.id.main_title);
@@ -81,10 +81,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             main_cancelBtn = itemView.findViewById(R.id.main_cancel);
             main_img = itemView.findViewById(R.id.main_img);
 
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     int curPos = getAdapterPosition();
                     ScheduleItem scheduleItem = mScheduleItems.get(curPos);
 
@@ -103,7 +103,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
                     input_title.setText(scheduleItem.getTitle());
                     input_content.setText(scheduleItem.getContent());
-                    input_dDay.setText(scheduleItem.getDate());
+                    input_dDay.setText(scheduleItem.getdDay());
 
                     if(scheduleItem.getChecked() == 1){
                         chk_detail.setChecked(true);
@@ -120,14 +120,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                         @SuppressLint("ResourceAsColor")
                         @Override
                         public void onClick(View v) {
-                            selectDateMethod = new DatePickerDialog.OnDateSetListener() {
+                            callbackMethod = new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                     input_dDay.setText(year + "년" + (month+1) + "월" + dayOfMonth + "일");
                                 }
                             };
 
-                            DatePickerDialog dialogDate = new DatePickerDialog(mContext, selectDateMethod, mYear, mMonth, mDate);
+                            DatePickerDialog dialogDate = new DatePickerDialog(mContext, callbackMethod, mYear, mMonth, mDate);
                             dialogDate.show();
                             dialogDate.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(R.color.black);
                             dialogDate.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(R.color.black);
@@ -141,13 +141,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                         }
                     });
 
-                    ok_btn.setOnClickListener(new View.OnClickListener(){
+                    ok_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String title = input_title.getText().toString();
                             String content = input_content.getText().toString();
                             String new_date = input_dDay.getText().toString();
-                            String beforeDate = scheduleItem.getDate();
+                            String beforeDate = scheduleItem.getdDay();
 
                             int checked;
 
@@ -161,7 +161,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
                             scheduleItem.setTitle(title);
                             scheduleItem.setContent(content);
-                            scheduleItem.setDate(new_date);
+                            scheduleItem.setdDay(new_date);
                             scheduleItem.setChecked(checked);
 
                             notifyItemChanged(curPos, scheduleItem);
@@ -186,8 +186,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     Toast.makeText(mContext, "목록 제거 완료", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
+
     public void addItem(ScheduleItem _item){
         mScheduleItems.add(0, _item);
         notifyItemInserted(0);

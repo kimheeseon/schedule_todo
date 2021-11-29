@@ -10,8 +10,9 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
+
     private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "scheduleDataBase";
+    private static final String DB_NAME = "ScheduleListDB";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -19,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS ScheduleItem (id INTEGER PRIMARY KEY AUTOINCREMENT, checked INTEGER, title TEXT NOT NULL, content TEXT NOT NULL, dDay TEXT NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS ScheduleList (id INTEGER PRIMARY KEY AUTOINCREMENT, checked INTEGER, title TEXT NOT NULL, content TEXT NOT NULL, date TEXT NOT NULL)");
     }
 
     @Override
@@ -27,15 +28,15 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public ArrayList<ScheduleItem> getSchedule() {
+    //select
+    public ArrayList<ScheduleItem> getSchedule(){
         ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM ScheduleItem ORDER BY date DESC", null);
-
-        if (cursor.getCount() != 0) {
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
+        Cursor cursor = db.rawQuery("SELECT * FROM ScheduleList ORDER BY date DESC", null);
+        if(cursor.getCount() != 0){
+            while (cursor.moveToNext()){
+                int id  = cursor.getInt(cursor.getColumnIndex("id"));
                 int checked = cursor.getInt(cursor.getColumnIndex("checked"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
                 String content = cursor.getString(cursor.getColumnIndex("content"));
@@ -45,30 +46,33 @@ public class DBHelper extends SQLiteOpenHelper {
                 scheduleItem.setId(id);
                 scheduleItem.setTitle(title);
                 scheduleItem.setContent(content);
-                scheduleItem.setDate(date);
+                scheduleItem.setdDay(date);
                 scheduleItem.setChecked(checked);
+                scheduleItems.add(scheduleItem);
+
             }
         }
-        cursor.close();
+        cursor.close();;
+
         return scheduleItems;
     }
 
-    //추가
-    public void InsertSchedule(int _checked, String _title, String _content, String _date) {
+    //insert
+    public void InsertSchedule(int _checked, String _title, String _content, String _date){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO TodoList (checked, title, content, date) VALUES('" + _checked + "','" + _title + "' , '" + _content + "' , '" + _date + "')");
+        db.execSQL("INSERT INTO ScheduleList (checked, title, content, date) VALUES('" + _checked + "','" + _title + "' , '" + _content + "' , '" + _date + "')");
     }
 
-    //수정
+    //update
     public void UpdateSchedule(int _checked, String _title, String _content, String _date, String _beforeDate){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE TodoList SET checked='" + _checked + "', title='" + _title + "', content='" + _content + "', dDay='" + _date + "' WHERE dDay='" + _beforeDate + "'");
+        db.execSQL("UPDATE ScheduleList SET checked='" + _checked + "', title='" + _title + "', content='" + _content + "', date='" + _date + "' WHERE date='" + _beforeDate + "'");
     }
 
-    //삭제
+    //delete
     public void DeleteSchedule(int _id){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM TodoList WHERE id = '" + _id + "'");
+        db.execSQL("DELETE FROM ScheduleList WHERE id = '" + _id + "'");
     }
 
 }
