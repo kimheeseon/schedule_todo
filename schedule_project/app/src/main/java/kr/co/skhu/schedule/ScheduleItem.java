@@ -48,7 +48,7 @@ public class ScheduleItem {
         return date;
     }
 
-    public void setdDay(String dDay) {
+    public void setdDay(String date) {
         this.date = date;
     }
 }
