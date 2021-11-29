@@ -187,6 +187,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 }
             });
         }
-
+    }
+    public void addItem(ScheduleItem _item){
+        mScheduleItems.add(0, _item);
+        notifyItemInserted(0);
     }
 }
